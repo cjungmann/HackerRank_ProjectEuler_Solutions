@@ -23,7 +23,7 @@ PTYPE *g_list_vals = NULL;
 long int g_count_vals = 0;
 long int g_index_vals = 0;
 long int g_count_primes = 1;
-long int g_primes_required = 0;
+long int g_highest_required = 0;
 
 // Linked-list structure
 struct Prime
@@ -76,6 +76,8 @@ PTYPE get_sum_of_primes(long int limit)
  */
 void process_tests(void)
 {
+   /* printf("Collected "PTOK" prime numbers.\n", g_count_primes); */
+
    PTYPE *arr = (PTYPE*)malloc(g_count_vals*sizeof(PTYPE));
    for (PTYPE i=0; i<g_count_vals; ++i)
       arr[i] = get_sum_of_primes(g_list_vals[i]);
@@ -96,14 +98,15 @@ void build_primes_list(Prime *last)
       --i;
 
    // Don't loop, recursion will process incremented n values
-   if (g_count_primes==g_primes_required)
+   if (last->val >= g_highest_required)
       process_tests();
-   if (g_count_primes < g_primes_required)
+   else
    {
       for (; i<PMAX; i+=2)
       {
          if (!has_any_current_factor(i))
          {
+            // Just for yucks, see how many we have:
             ++g_count_primes;
 
             Prime newprime = {i,NULL};
@@ -124,8 +127,8 @@ int main(void)
    for (long int i=0; i<g_count_vals; ++i)
    {
       scanf(PTOK, &g_list_vals[i]);
-      if (g_list_vals[i]>g_primes_required)
-         g_primes_required = g_list_vals[i];
+      if (g_list_vals[i]>g_highest_required)
+         g_highest_required = g_list_vals[i];
    }
 
    build_primes_list(&pbase);
