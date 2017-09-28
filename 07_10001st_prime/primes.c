@@ -84,6 +84,10 @@ void show_primes(PTYPE *arr)
 /**
  * Make an array of primes values, with the requested primes at the indexes of
  * prime number indexes.
+ *
+ * This extra step saves time for cases that have duplicate requests,
+ * so the relatively expensive walk through the linked list need not
+ * be performed again.
  */
 void index_prime_values(void)
 {
